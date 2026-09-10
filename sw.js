@@ -1,6 +1,6 @@
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open('akshara-cache-v4').then((cache) => {
+    caches.open('akshara-cache-v5').then((cache) => {
       return cache.addAll([
         './',
         './index.html',

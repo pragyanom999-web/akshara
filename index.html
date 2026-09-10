@@ -1,189 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b174d">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Akshara">
-  <meta name="description" content="Akshara — Learn, Grow, Achieve.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
-  <title>Akshara — Learn, Grow, Achieve</title>
-
-  <style>
-    :root{
-      --navy:#0b174d;--navy2:#172866;--blue:#3159d9;--coral:#ff6a5b;
-      --text:#10204f;--muted:#66769c;--bg:#f6f8fd;--white:#fff;
-      --line:#e6ebf5;--shadow:0 12px 32px rgba(20,43,100,.08);
-      --safe-bottom:env(safe-area-inset-bottom,0px)
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:linear-gradient(#fff 0,#f4f7fd 100%);color:var(--text);
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      -webkit-font-smoothing:antialiased}
-    button,input{font:inherit}button{border:0;cursor:pointer}a{text-decoration:none;color:inherit}
-    .app{width:min(100%,1180px);margin:auto;padding:18px 28px 105px}
-    .topbar{height:74px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-    .brand{display:flex;align-items:center;min-width:0}.brand img{width:58px;height:58px;object-fit:contain}
-    .brandcopy{margin-left:10px}.brandname{font:700 clamp(32px,4vw,52px)/.9 Georgia,serif;letter-spacing:-1.8px;color:#13266d;margin:0}
-    .tag{font-size:14px;color:#66769c;margin:7px 0 0}
-    .actions{display:flex;align-items:center;gap:4px}.circle{width:47px;height:47px;border-radius:50%;background:transparent;color:var(--navy);display:grid;place-items:center;position:relative}
-    .circle:hover{background:#eef2fc}.circle svg{width:27px;height:27px}.dot{position:absolute;right:8px;top:7px;width:10px;height:10px;border:2px solid white;border-radius:50%;background:var(--coral)}
-    .avatar{width:50px;height:50px;border-radius:50%;background:#eaf0ff;border:2px solid #cbd4e8;display:grid;place-items:center;overflow:hidden}
-    .avatar svg{width:42px;height:42px}
-
-    .hero{position:relative;overflow:hidden;min-height:395px;border-radius:30px;padding:48px;color:white;
-      background:radial-gradient(circle at 80% 35%,rgba(69,91,198,.45),transparent 27%),radial-gradient(circle at 60% 110%,rgba(55,81,185,.35),transparent 36%),linear-gradient(135deg,#07133e,#182968);
-      box-shadow:0 18px 42px rgba(10,25,78,.17)}
-    .hero:before{content:"";position:absolute;width:500px;height:500px;border:1px solid rgba(255,255,255,.055);border-radius:50%;right:-170px;top:-150px}
-    .heroText{position:relative;z-index:3;max-width:620px}.eyebrow{text-transform:uppercase;letter-spacing:2.4px;font-size:14px;font-weight:700;color:#dce5ff;margin:0 0 18px}
-    .hero h1{font:700 clamp(45px,6vw,72px)/.98 Georgia,serif;letter-spacing:-2.4px;margin:0}.hero h1 span{color:#ff7567}
-    .hero p{font-size:18px;line-height:1.55;color:#dce5fa;max-width:520px;margin:23px 0 27px}
-    .primary{background:linear-gradient(135deg,#ff7668,#ff5d51);color:white;padding:15px 23px;border-radius:999px;font-weight:800;display:inline-flex;gap:13px;align-items:center;box-shadow:0 12px 25px rgba(255,100,86,.25)}
-    .primary svg{width:20px}.primary:active{transform:scale(.98)}
-    .art{position:absolute;right:25px;top:68px;width:41%;max-width:400px;aspect-ratio:1;display:grid;place-items:center;z-index:1}
-    .book{position:relative;width:78%;height:47%;filter:drop-shadow(0 20px 22px rgba(0,0,0,.2))}
-    .page{position:absolute;top:0;width:50%;height:100%;background:#fffaf0;border-bottom:9px solid var(--coral)}
-    .left{left:0;border-radius:15px 4px 4px 28px;transform:skewY(18deg)}.right{right:0;border-radius:4px 15px 28px 4px;transform:skewY(-18deg)}
-    .center{position:absolute;left:50%;top:-10px;width:7px;height:108%;background:#fffaf0;transform:translateX(-50%);border-radius:50%}
-    .spark{position:absolute;z-index:3;top:-58px;left:50%;width:36px;height:36px;margin-left:-18px;background:#ff7666;transform:rotate(45deg);border-radius:5px}
-    .spark:after{content:"";position:absolute;inset:-17px;border:2px solid rgba(255,255,255,.45);border-radius:50%}
-    .slides{position:absolute;right:29px;bottom:25px;display:flex;gap:10px;z-index:3}.slides i{width:12px;height:12px;border-radius:50%;background:#adbadf}.slides .on{background:var(--coral)}
-
-    .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:24px 0}
-    .quickcard{min-height:180px;background:#fff;border:1px solid #edf0f7;border-radius:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;transition:.18s}
-    .quickcard:hover{transform:translateY(-3px)}.quickcard h3{font-size:18px;line-height:1.25;text-align:center;margin:0}
-    .qicon{width:70px;height:70px;border-radius:19px;display:grid;place-items:center}.qicon svg{width:34px;height:34px}
-    .qb{background:#e9efff;color:#3159d9}.qc{background:#ffebea;color:#ff5f53}.qg{background:#dcf6ed;color:#08ad78}.qp{background:#f0eaff;color:#7042d6}
-
-    .card{background:#fff;border:1px solid #edf0f7;border-radius:28px;box-shadow:var(--shadow);padding:30px;margin-bottom:25px}
-    .head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:21px}.head h2,.subjectHead h2{font:700 32px/1 Georgia,serif;letter-spacing:-.8px;margin:0}
-    .linkbtn{background:none;color:#3159d9;font-weight:800;display:flex;align-items:center;gap:5px}
-    .lesson{display:grid;grid-template-columns:220px 1fr auto;gap:25px;align-items:center;padding:18px;background:#f5f7fd;border-radius:22px}
-    .thumb{height:150px;border-radius:18px;background:linear-gradient(145deg,#162961,#081441);display:grid;place-items:center}
-    .flask{position:relative;width:64px;height:75px;border:5px solid #fff;border-top:0;border-radius:8px 8px 30px 30px;background:linear-gradient(to top,#ff6659 0 48%,transparent 49%)}
-    .flask:before{content:"";position:absolute;width:25px;height:22px;border:5px solid white;border-bottom:0;left:50%;top:-25px;transform:translateX(-50%);border-radius:4px 4px 0 0}
-    .lessonLabel{font-size:14px;color:#6a7fd5;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 8px}
-    .lesson h3{font-size:23px;line-height:1.3;margin:0}.prog{display:flex;align-items:center;gap:14px;margin-top:21px}.bar{height:10px;flex:1;min-width:100px;background:#dfe4f0;border-radius:20px;overflow:hidden}.bar span{display:block;width:38%;height:100%;background:#ff695c;border-radius:inherit}.prog small{white-space:nowrap;color:#63729a}
-    .round{width:54px;height:54px;border-radius:50%;background:#e9efff;color:#3159d9;display:grid;place-items:center}.round svg{width:23px}
-
-    .subjectHead{margin:0 0 20px}.subjectHead p{color:#66769c;margin:8px 0 0;font-size:17px}
-    .subjects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.subject{min-height:160px;text-align:left;position:relative;border-radius:22px;padding:21px;border:1px solid var(--line);transition:.18s}
-    .subject:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.si{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;margin-bottom:13px}.si svg{width:26px}
-    .subject h3{font-size:19px;margin:0 0 7px}.subject p{font-size:14px;color:#68789c;margin:0}.chev{position:absolute;right:20px;bottom:21px;font-size:28px;color:#50668f}
-    .math{background:#f7f9ff;border-color:#dfe7ff}.math .si{background:#dce6ff;color:#3159d9}.science{background:#fff9f8;border-color:#ffe2de}.science .si{background:#ffd8d2;color:#f05e51}.english{background:#f6fcfa;border-color:#d9f1e8}.english .si{background:#c7f1e3;color:#0da977}.social{background:#fbf8ff;border-color:#eadfff}.social .si{background:#e2d3ff;color:#7042d6}.assamese{background:#fffdf7;border-color:#f7e9c8}.assamese .si{background:#ffe4a8;color:#d49300}.more{background:#f7faff;border-color:#dbe8ff}.more .si{background:#cfe1ff;color:#3575df}
-
-    .bottom{position:fixed;z-index:20;left:50%;bottom:10px;transform:translateX(-50%);width:min(calc(100% - 30px),720px);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 7px calc(8px + var(--safe-bottom));background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border:1px solid #e4e9f3;border-radius:25px;box-shadow:0 16px 45px rgba(25,48,105,.18)}
-    .nav{position:relative;background:transparent;color:#71809e;min-height:59px;border-radius:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700}.nav svg{width:24px;height:24px}.nav.active{color:#3159d9;background:#f0f4ff}.nav.active:after{content:"";position:absolute;bottom:2px;width:48px;height:3px;border-radius:5px;background:#3159d9}
-
-    .view{display:none}.view.active{display:block}
-    .simpleGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.mini{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.mini h3{margin:0 0 7px}.mini p{margin:0;color:var(--muted)}
-    .searchOverlay,.modal{position:fixed;z-index:100;inset:0;background:rgba(5,13,43,.52);display:none;align-items:flex-start;justify-content:center;padding:80px 16px}.searchOverlay.open,.modal.open{display:flex}
-    .searchBox,.modalBox{width:min(620px,100%);background:white;border-radius:24px;padding:22px;box-shadow:0 25px 70px rgba(0,0,0,.25)}
-    .searchInput{display:flex;gap:10px}.searchInput input{width:100%;border:1px solid #dce3f1;border-radius:15px;padding:14px 16px;outline:none}.close{background:#eef2fa;color:var(--navy);border-radius:12px;padding:0 15px;font-weight:800}.result{margin-top:15px;padding:15px;border-radius:15px;background:#f5f7fd;color:var(--muted)}
-    .modalBox h2{margin:0 0 10px;font-family:Georgia,serif}.modalBox p{color:var(--muted);line-height:1.55}.modalActions{display:flex;gap:10px;justify-content:flex-end}.secondary{background:#eef2fa;color:var(--navy);padding:12px 18px;border-radius:12px;font-weight:800}
-    .toast{position:fixed;z-index:150;left:50%;bottom:105px;transform:translate(-50%,20px);opacity:0;background:#0b174d;color:#fff;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;transition:.22s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
-
-    @media(max-width:850px){.app{padding:14px 18px 100px}.hero{padding:37px;min-height:410px}.art{right:-15px;width:44%}.quick{gap:12px}.lesson{grid-template-columns:170px 1fr}.lesson .round{display:none}}
-    @media(max-width:600px){
-      .app{padding:10px 12px 100px}.topbar{height:66px}.brand img{width:48px;height:48px}.brandcopy{margin-left:7px}.brandname{font-size:34px}.tag{font-size:12px;margin-top:5px}.actions{gap:0}.circle{width:40px;height:40px}.avatar{width:44px;height:44px}.avatar svg{width:36px}
-      .hero{min-height:455px;padding:30px 25px;border-radius:27px}.eyebrow{font-size:11px;letter-spacing:1.8px;max-width:260px}.hero h1{font-size:45px;letter-spacing:-1.8px}.hero p{font-size:16px;max-width:310px}.art{width:240px;right:-23px;top:245px}.slides{right:24px;bottom:20px}
-      .quick{grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.quickcard{min-height:175px;border-radius:22px}.qicon{width:63px;height:63px}.quickcard h3{font-size:16px}
-      .card{padding:21px;border-radius:23px}.head h2,.subjectHead h2{font-size:27px}.lesson{grid-template-columns:1fr;padding:12px;gap:15px}.thumb{height:145px}.lesson h3{font-size:18px}.prog{display:block}.prog .bar{display:block}.prog small{display:block;margin-top:8px}.subjects{grid-template-columns:1fr 1fr;gap:10px}.subject{min-height:145px;padding:16px;border-radius:19px}.si{width:45px;height:45px}.subject h3{font-size:15px}.subject p{font-size:12px}.chev{right:14px;bottom:15px}
-      .simpleGrid{grid-template-columns:1fr}.bottom{width:calc(100% - 16px);bottom:7px}.nav{min-height:53px;font-size:10px}.nav svg{width:22px;height:22px}
-    }
-    @media(max-width:390px){.hero h1{font-size:40px}.hero{min-height:445px}.art{width:210px;top:250px}.subjects{grid-template-columns:1fr}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshara - Learn, Grow, Achieve</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e293b">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-<main class="app">
-  <header class="topbar">
-    <button class="brand" data-view="home" aria-label="Go to Home">
-      <img src="logo.png" alt="Akshara logo">
-      <span class="brandcopy"><span class="brandname">Akshara</span><span class="tag">Learn · Grow · Achieve</span></span>
-    </button>
-    <div class="actions">
-      <button class="circle" id="searchBtn" aria-label="Search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
-      </button>
-      <button class="circle" id="notifyBtn" aria-label="Notifications"><span class="dot"></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
-      </button>
-      <button class="avatar" id="profileBtn" aria-label="Profile">
-        <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#dbe5ff"/><circle cx="24" cy="18" r="8" fill="#f4c49d"/><path d="M14 40c1-8 5-12 10-12s9 4 10 12" fill="#15265d"/><path d="M16 17c1-7 14-9 17 1-3-2-7-4-17-1z" fill="#14204c"/></svg>
-      </button>
-    </div>
-  </header>
 
-  <!-- HOME -->
-  <section id="home" class="view active">
-    <section class="hero">
-      <div class="heroText">
-        <p class="eyebrow">Your learning journey starts here</p>
-        <h1>Better Learning<br><span>Brighter Future</span></h1>
-        <p>Study at your pace, achieve your dreams with Akshara.</p>
-        <button class="primary" data-action="courses">Explore Courses
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h13"/><path d="m13 6 6 6-6 6"/></svg>
-        </button>
-      </div>
-      <div class="art" aria-hidden="true"><div class="book"><div class="spark"></div><div class="page left"></div><div class="page right"></div><div class="center"></div></div></div>
-      <div class="slides"><i class="on"></i><i></i><i></i></div>
-    </section>
-
-    <section class="quick">
-      <button class="quickcard" data-action="videos"><span class="qicon qb"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z" fill="white"/></svg></span><h3>Video<br>Lessons</h3></button>
-      <button class="quickcard" data-action="materials"><span class="qicon qc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h12v16H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><h3>Study<br>Materials</h3></button>
-      <button class="quickcard" data-action="tests"><span class="qicon qg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8 9 1.5 1.5L12 8M8 15l1.5 1.5L12 14M14 10h3M14 16h3"/></svg></span><h3>Practice<br>Tests</h3></button>
-      <button class="quickcard" data-action="progress"><span class="qicon qp"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="13" width="3.5" height="7" rx="1"/><rect x="10.25" y="9" width="3.5" height="11" rx="1"/><rect x="16.5" y="4" width="3.5" height="16" rx="1"/></svg></span><h3>Performance<br>Analytics</h3></button>
-    </section>
-
-    <section class="card">
-      <div class="head"><h2>Continue Learning</h2><button class="linkbtn" data-action="lessons">View All ›</button></div>
-      <article class="lesson">
-        <div class="thumb"><div class="flask"></div></div>
-        <div><p class="lessonLabel">Science</p><h3>Chapter 1: Chemical Reactions<br class="desktop"> and Equations</h3>
-          <div class="prog"><div class="bar"><span></span></div><small>3 / 8 Lessons Completed</small></div>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="brand">
+            <img src="logo.png" alt="Akshara Logo" class="app-logo">
+            <div class="brand-text">
+                <h1>Akshara</h1>
+                <span>Learn &bull; Grow &bull; Achieve</span>
+            </div>
         </div>
-        <button class="round" data-action="continue" aria-label="Continue lesson"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h13"/><path d="m13 6 6 6-6 6"/></svg></button>
-      </article>
-    </section>
+        <div class="nav-icons">
+            <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button aria-label="Notifications"><i class="fa-regular fa-bell"></i><span class="badge"></span></button>
+            <button class="profile-btn" aria-label="Profile"><i class="fa-solid fa-user"></i></button>
+        </div>
+    </header>
 
-    <section class="subjectHead"><h2>Explore by Subject</h2><p>Choose your subject and start learning</p></section>
-    <section class="subjects">
-      <button class="subject math" data-action="subject:Mathematics"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6c3-2 6-1 8 1v13c-2-2-5-3-8-1z"/><path d="M20 6c-3-2-6-1-8 1v13c2-2 5-3 8-1z"/></svg></span><h3>Mathematics</h3><p>12 Chapters</p><span class="chev">›</span></button>
-      <button class="subject science" data-action="subject:Science"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 16h8"/></svg></span><h3>Science</h3><p>14 Chapters</p><span class="chev">›</span></button>
-      <button class="subject english" data-action="subject:English"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6c3-2 6-1 8 1v12c-2-2-5-3-8-1z"/><path d="M20 6c-3-2-6-1-8 1v12c2-2 5-3 8-1z"/><path d="M8 11h3M13 11h3"/></svg></span><h3>English</h3><p>10 Chapters</p><span class="chev">›</span></button>
-      <button class="subject social" data-action="subject:Social Science"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><h3>Social Science</h3><p>12 Chapters</p><span class="chev">›</span></button>
-      <button class="subject assamese" data-action="subject:Assamese"><span class="si" style="font-size:25px;font-weight:900">অ</span><h3>Assamese</h3><p>8 Chapters</p><span class="chev">›</span></button>
-      <button class="subject more" data-action="moreSubjects"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span><h3>More Subjects</h3><p>Explore Now</p><span class="chev">›</span></button>
-    </section>
-  </section>
+    <!-- Main Container Content -->
+    <main class="main-content">
 
-  <!-- OTHER VIEWS -->
-  <section id="courses" class="view">
-    <section class="card"><div class="head"><h2>Courses</h2><button class="linkbtn" data-action="home">Home ›</button></div>
-      <div class="simpleGrid">
-        <button class="mini" data-action="subject:Mathematics"><h3>Mathematics</h3><p>12 chapters · Start learning</p></button>
-        <button class="mini" data-action="subject:Science"><h3>Science</h3><p>14 chapters · Start learning</p></button>
-        <button class="mini" data-action="subject:English"><h3>English</h3><p>10 chapters · Start learning</p></button>
-        <button class="mini" data-action="subject:Social Science"><h3>Social Science</h3><p>12 chapters · Start learning</p></button>
-        <button class="mini" data-action="subject:Assamese"><h3>Assamese</h3><p>8 chapters · Start learning</p></button>
-        <button class="mini" data-action="moreSubjects"><h3>More Subjects</h3><p>Explore available subjects</p></button>
-      </div>
-    </section>
-  </section>
+        <!-- Hero Banner Section -->
+        <section class="hero-banner">
+            <div class="hero-text">
+                <span class="hero-subtitle">YOUR LEARNING JOURNEY STARTS HERE</span>
+                <h2>Better Learning <br><span class="highlight-text">Brighter Future</span></h2>
+                <p>Study at your pace, achieve your dreams with Akshara.</p>
+                <button class="explore-btn" id="exploreCoursesBtn">Explore Courses <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="hero-graphic">
+                <i class="fa-solid fa-graduation-cap floating-cap"></i>
+                <div class="glow-sphere"></div>
+            </div>
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </section>
 
-  <section id="library" class="view">
-    <section class="card"><div class="head"><h2>Library</h2></div><div class="simpleGrid">
-      <button class="mini" data-action="materials"><h3>Study Materials</h3><p>Notes, PDFs and chapter resources</p></button>
-      <button class="mini" data-action="videos"><h3>Video Lessons</h3><p>Learn visually at your pace</p></button>
-      <button class="mini" data-action="tests"><h3>Question Bank</h3><p>Practice important questions</p></button>
-      <button class="mini" data-action="lessons"><h3>Saved Lessons</h3><p>Continue where you left off</p></button>
-    </div></section>
-  </se
+        <!-- Quick Options Grid -->
+        <section class="quick-grid">
+            <div class="quick-card" data-key="video_lessons">
+                <div class="icon-box blue-bg"><i class="fa-solid fa-play"></i></div>
+                <span>Video Lessons</span>
+            </div>
+            <div class="quick-card" data-key="study_materials">
+                <div class="icon-box pink-bg"><i class="fa-solid fa-book-bookmark"></i></div>
+                <span>Study Materials</span>
+            </div>
+            <div class="quick-card" data-key="practice_tests">
+                <div class="icon-box mint-bg"><i class="fa-solid fa-square-check"></i></div>
+                <span>Practice Tests</span>
+            </div>
+            <div class="quick-card" data-key="performance_analytics">
+                <div class="icon-box purple-bg"><i class="fa-solid fa-chart-column"></i></div>
+                <span>Performance Analytics</span>
+            </div>
+        </section>
+
+        <!-- Continue Learning Section -->
+        <section class="section-block">
+            <div class="section-header">
+                <h3>Continue Learning</h3>
+                <a href="#" class="view-all">View All <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            <div class="continue-card" id="continueCard">
+                <div class="card-icon-lg">
+                    <i class="fa-solid fa-flask-vial"></i>
+                </div>
+                <div class="card-details">
+                    <span class="sub-category" id="continueSub">SCIENCE</span>
+                    <h4 id="continueTitle">Chapter 1: Chemical Reactions and Equations</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="progressFill" style="width: 37.5%;"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">3 / 8 Lessons Completed</span>
+                </div>
+                <button class="arrow-forward-btn" aria-label="Open Lesson"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- Explore by Subject Section -->
+        <section class="section-block">
+            <div class="section-header">
+                <h3>Explore by Subject</h3>
+                <p class="section-desc">Choose your subject and start learning</p>
+            </div>
+            <div class="subjects-grid" id="subjectsGrid">
+                <!-- Dynamically populated from content.json -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="#courses" class="nav-item" id="navCourses">
+            <i class="fa-solid fa-book"></i>
+            <span>Courses</span>
+        </a>
+        <a href="#library" class="nav-item" id="navLibrary">
+            <i class="fa-solid fa-folder-open"></i>
+            <span>Library</span>
+        </a>
+        <a href="#progress" class="nav-item" id="navProgress">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Progress</span>
+        </a>
+        <a href="#more" class="nav-item" id="navMore">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span>More</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+    <script>
+      // Register Service Worker for PWA installation
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed: ', err));
+        });
+      }
+    </script>
+</body>
+</html>

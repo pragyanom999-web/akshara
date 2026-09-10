@@ -98,14 +98,12 @@ body {
     font-size: 14px !important;
 }
 
-/* Main Content Wrapper */
 .main-content {
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
 }
 
-/* Hero Banner */
 .hero-banner {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
     border-radius: 20px;
@@ -191,7 +189,6 @@ body {
     border-radius: 4px;
 }
 
-/* Quick Grid Options */
 .quick-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -238,7 +235,6 @@ body {
     line-height: 1.2;
 }
 
-/* Section Common */
 .section-block {
     margin-bottom: 25px;
 }
@@ -268,7 +264,6 @@ body {
     color: var(--text-muted);
 }
 
-/* Continue Learning Card */
 .continue-card {
     background: var(--card-bg);
     border-radius: 16px;
@@ -349,7 +344,6 @@ body {
     flex-shrink: 0;
 }
 
-/* Subject Grid */
 .subjects-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -405,12 +399,6 @@ body {
     color: var(--text-muted);
 }
 
-.subject-card i.fa-chevron-right {
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-/* Profile View Styles */
 .profile-view {
     animation: fadeIn 0.3s ease-in-out;
 }
@@ -532,7 +520,6 @@ body {
 .text-blue { color: #2563eb; }
 .text-purple { color: #7c3aed; }
 
-/* Bottom Navigation */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -565,4 +552,5 @@ body {
 .nav-item.active {
     color: #2563eb;
     font-weight: 600;
-                                }
+    }
+    

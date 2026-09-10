@@ -56,3 +56,16 @@
     "performance_analytics": "#analytics"
   }
 }
+{
+  "student_profile": {
+    "name": "Student Name",
+    "grade": "Class 10",
+    "board": "SEBA",
+    "email": "student@example.com",
+    "avatar": "fa-user",
+    "total_points": 1250,
+    "courses_enrolled": 5,
+    "certificates_earned": 2
+  }
+}
+

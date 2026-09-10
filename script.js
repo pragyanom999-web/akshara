@@ -85,3 +85,44 @@ function getSubjectBg(color) {
     };
     return map[color] || "#eff6ff";
 }
+// Toggle Profile View on Top-Right Profile Icon click
+document.addEventListener("DOMContentLoaded", () => {
+    const profileBtn = document.querySelector(".profile-btn");
+    const mainContentSections = document.querySelectorAll(".main-content > section");
+    const profileView = document.getElementById("profileView");
+
+    let isProfileOpen = false;
+
+    if (profileBtn) {
+        profileBtn.addEventListener("click", () => {
+            isProfileOpen = !isProfileOpen;
+            if (isProfileOpen) {
+                // Hide home sections and show profile
+                document.querySelectorAll(".main-content > section:not(#profileView)").forEach(sec => sec.style.display = "none");
+                profileView.style.display = "block";
+                loadProfileData();
+            } else {
+                // Restore home sections and hide profile
+                document.querySelectorAll(".main-content > section:not(#profileView)").forEach(sec => sec.style.display = "block");
+                profileView.style.display = "none";
+            }
+        });
+    }
+});
+
+async function loadProfileData() {
+    try {
+        const response = await fetch('content.json');
+        const data = await response.json();
+        if(data.student_profile) {
+            document.getElementById("profileName").innerText = data.student_profile.name;
+            document.getElementById("profileMeta").innerText = `${data.student_profile.grade} • ${data.student_profile.board}`;
+            document.getElementById("statPoints").innerText = data.student_profile.total_points;
+            document.getElementById("statCourses").innerText = data.student_profile.courses_enrolled;
+            document.getElementById("statCerts").innerText = data.student_profile.certificates_earned;
+        }
+    } catch (e) {
+        console.error("Could not load profile info", e);
+    }
+}
+

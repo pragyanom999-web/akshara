@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadContentData();
+    setupNavigation();
 });
 
 async function loadContentData() {
@@ -7,61 +8,158 @@ async function loadContentData() {
         const response = await fetch('content.json');
         const data = await response.json();
 
-        // Populate Continue Learning Card
-        document.getElementById("continueSub").innerText = data.continue_learning.subject;
-        document.getElementById("continueTitle").innerText = data.continue_learning.title;
-        document.getElementById("progressFill").style.width = data.continue_learning.progress_percent + "%";
-        document.getElementById("progressText").innerText = `${data.continue_learning.completed_lessons} / ${data.continue_learning.total_lessons} Lessons Completed`;
+        // 1. Populate Student Profile Data
+        if(data.student_profile) {
+            document.getElementById("profileName").innerText = data.student_profile.name;
+            document.getElementById("profileMeta").innerText = `${data.student_profile.grade} • ${data.student_profile.board}`;
+            document.getElementById("statPoints").innerText = data.student_profile.total_points;
+            document.getElementById("statCourses").innerText = data.student_profile.courses_enrolled;
+            document.getElementById("statCerts").innerText = data.student_profile.certificates_earned;
+        }
 
-        document.getElementById("continueCard").addEventListener("click", () => {
-            window.open(data.continue_learning.drive_link, '_blank');
-        });
+        // 2. Populate Continue Learning Card
+        if(data.continue_learning) {
+            document.getElementById("continueSub").innerText = data.continue_learning.subject;
+            document.getElementById("continueTitle").innerText = data.continue_learning.title;
+            document.getElementById("progressFill").style.width = data.continue_learning.progress_percent + "%";
+            document.getElementById("progressText").innerText = `${data.continue_learning.completed_lessons} / ${data.continue_learning.total_lessons} Lessons Completed`;
 
-        // Populate Subjects Grid
+            document.getElementById("continueCard").onclick = () => {
+                window.open(data.continue_learning.drive_link, '_blank');
+            };
+            document.getElementById("continueViewAll").onclick = (e) => {
+                e.preventDefault();
+                window.open(data.continue_learning.drive_link, '_blank');
+            };
+        }
+
+        // 3. Populate Subjects Grid
         const subjectsGrid = document.getElementById("subjectsGrid");
         subjectsGrid.innerHTML = "";
 
-        data.subjects.forEach(sub => {
-            const card = document.createElement("div");
-            card.className = "subject-card";
-            card.innerHTML = `
-                <div class="subject-left">
-                    <div class="subject-icon" style="background: ${getSubjectBg(sub.color)}; color: ${getSubjectColor(sub.color)}">
-                        <i class="fa-solid ${sub.icon}"></i>
+        if(data.subjects) {
+            data.subjects.forEach(sub => {
+                const card = document.createElement("div");
+                card.className = "subject-card";
+                card.innerHTML = `
+                    <div class="subject-left">
+                        <div class="subject-icon" style="background: ${getSubjectBg(sub.color)}; color: ${getSubjectColor(sub.color)}">
+                            <i class="fa-solid ${sub.icon}"></i>
+                        </div>
+                        <div class="subject-info">
+                            <h5>${sub.name}</h5>
+                            <span>${sub.chapters} Chapters</span>
+                        </div>
                     </div>
-                    <div class="subject-info">
-                        <h5>${sub.name}</h5>
-                        <span>${sub.chapters} Chapters</span>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-right"></i>
-            `;
-            card.addEventListener("click", () => {
-                window.open(sub.drive_link, '_blank');
+                    <i class="fa-solid fa-chevron-right"></i>
+                `;
+                card.onclick = () => {
+                    window.open(sub.drive_link, '_blank');
+                };
+                subjectsGrid.appendChild(card);
             });
-            subjectsGrid.appendChild(card);
-        });
+        }
 
-        // Quick Option clicks handling
+        // 4. Quick Option Clicks Mapping
         document.querySelectorAll(".quick-card").forEach(card => {
             const key = card.getAttribute("data-key");
-            card.addEventListener("click", () => {
-                const link = data.quick_options[key];
-                if (link && link !== "#analytics") {
-                    window.open(link, '_blank');
+            card.onclick = () => {
+                if(data.quick_options && data.quick_options[key]) {
+                    window.open(data.quick_options[key], '_blank');
                 } else {
-                    alert("Opening Analytics/Performance Dashboard");
+                    alert("Link not configured in content.json");
                 }
-            });
+            };
         });
 
-        document.getElementById("exploreCoursesBtn").addEventListener("click", () => {
-            window.scrollTo({ top: 500, behavior: 'smooth' });
+        // 5. Bottom Navigation links handling
+        document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {
+            const navKey = item.getAttribute("data-nav");
+            item.onclick = (e) => {
+                e.preventDefault();
+                
+                // Highlight active nav icon
+                document.querySelectorAll(".bottom-nav .nav-item").forEach(n => n.classList.remove("active"));
+                item.classList.add("active");
+
+                if(navKey === 'home') {
+                    showHomeView();
+                } else {
+                    if(data.navigation_links && data.navigation_links[navKey]) {
+                        window.open(data.navigation_links[navKey], '_blank');
+                    } else {
+                        alert(`Opening ${navKey} module.`);
+                    }
+                }
+            };
         });
+
+        // Top Search & Notification Buttons
+        document.getElementById("searchBtn").onclick = () => {
+            const query = prompt("Search study materials or chapters:");
+            if(query) {
+                alert(`Searching for: "${query}". You can link your search index or folders in content.json.`);
+            }
+        };
+
+        document.getElementById("notifBtn").onclick = () => {
+            alert("No new notifications at this time.");
+        };
+
+        // Explore Courses Banner Button
+        document.getElementById("exploreCoursesBtn").onclick = () => {
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        };
 
     } catch (error) {
         console.error("Error loading content.json:", error);
     }
+}
+
+function setupNavigation() {
+    const profileToggleBtn = document.getElementById("profileToggleBtn");
+    const brandHome = document.getElementById("brandHome");
+    const homeContainer = document.getElementById("homeViewContainer");
+    const profileView = document.getElementById("profileView");
+
+    // Toggle Profile View on clicking profile picture icon
+    profileToggleBtn.onclick = () => {
+        const isProfileVisible = profileView.style.display === "block";
+        if(!isProfileVisible) {
+            homeContainer.style.display = "none";
+            profileView.style.display = "block";
+        } else {
+            homeContainer.style.display = "block";
+            profileView.style.display = "none";
+        }
+    };
+
+    // Return to Home view when clicking brand logo title
+    brandHome.onclick = () => {
+        showHomeView();
+        document.querySelectorAll(".bottom-nav .nav-item").forEach(n => n.classList.remove("active"));
+        document.querySelector('.bottom-nav .nav-item[data-nav="home"]').classList.add("active");
+    };
+
+    // Settings actions in Profile view
+    document.getElementById("clearCacheBtn").onclick = () => {
+        if('caches' in window) {
+            caches.keys().then(names => {
+                names.forEach(name => caches.delete(name));
+            });
+        }
+        localStorage.clear();
+        alert("App cache cleared successfully!");
+    };
+
+    document.getElementById("appVersionBtn").onclick = () => {
+        alert("Akshara PWA is running on version v1.0.0 (SEBA Class 9 & 10 curriculum support active).");
+    };
+}
+
+function showHomeView() {
+    document.getElementById("homeViewContainer").style.display = "block";
+    document.getElementById("profileView").style.display = "none";
 }
 
 function getSubjectColor(color) {
@@ -84,45 +182,4 @@ function getSubjectBg(color) {
         amber: "#fffbeb"
     };
     return map[color] || "#eff6ff";
-}
-// Toggle Profile View on Top-Right Profile Icon click
-document.addEventListener("DOMContentLoaded", () => {
-    const profileBtn = document.querySelector(".profile-btn");
-    const mainContentSections = document.querySelectorAll(".main-content > section");
-    const profileView = document.getElementById("profileView");
-
-    let isProfileOpen = false;
-
-    if (profileBtn) {
-        profileBtn.addEventListener("click", () => {
-            isProfileOpen = !isProfileOpen;
-            if (isProfileOpen) {
-                // Hide home sections and show profile
-                document.querySelectorAll(".main-content > section:not(#profileView)").forEach(sec => sec.style.display = "none");
-                profileView.style.display = "block";
-                loadProfileData();
-            } else {
-                // Restore home sections and hide profile
-                document.querySelectorAll(".main-content > section:not(#profileView)").forEach(sec => sec.style.display = "block");
-                profileView.style.display = "none";
-            }
-        });
-    }
-});
-
-async function loadProfileData() {
-    try {
-        const response = await fetch('content.json');
-        const data = await response.json();
-        if(data.student_profile) {
-            document.getElementById("profileName").innerText = data.student_profile.name;
-            document.getElementById("profileMeta").innerText = `${data.student_profile.grade} • ${data.student_profile.board}`;
-            document.getElementById("statPoints").innerText = data.student_profile.total_points;
-            document.getElementById("statCourses").innerText = data.student_profile.courses_enrolled;
-            document.getElementById("statCerts").innerText = data.student_profile.certificates_earned;
         }
-    } catch (e) {
-        console.error("Could not load profile info", e);
-    }
-}
-

@@ -1,13 +1,13 @@
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open('akshara-cache-v3').then((cache) => {
+    caches.open('akshara-cache-v4').then((cache) => {
       return cache.addAll([
-        '/',
-        '/index.html',
-        '/style.css',
-        '/script.js',
-        '/content.json',
-        '/logo.png'
+        './',
+        './index.html',
+        './style.css',
+        './script.js',
+        './content.json',
+        './logo.png'
       ]);
     })
   );
@@ -20,4 +20,3 @@ self.addEventListener('fetch', (e) => {
     })
   );
 });
-                      

@@ -31,7 +31,7 @@
     <!-- Main Content Container -->
     <main class="main-content">
 
-        <!-- HOME VIEW SECTIONS (Wrapped together for view toggling) -->
+        <!-- HOME VIEW SECTIONS -->
         <div id="homeViewContainer">
             <!-- Hero Banner Section -->
             <section class="hero-banner">
@@ -99,13 +99,11 @@
                     <h3>Explore by Subject</h3>
                     <p class="section-desc">Choose your subject and start learning</p>
                 </div>
-                <div class="subjects-grid" id="subjectsGrid">
-                    <!-- Dynamically populated from content.json -->
-                </div>
+                <div class="subjects-grid" id="subjectsGrid"></div>
             </section>
         </div>
 
-        <!-- STUDENT PROFILE VIEW (Initially Hidden) -->
+        <!-- STUDENT PROFILE VIEW -->
         <section id="profileView" class="profile-view" style="display: none;">
             <div class="profile-header-card">
                 <div class="profile-avatar-lg">
@@ -114,6 +112,11 @@
                 <h2 id="profileName">Student Name</h2>
                 <p id="profileMeta">Class 10 &bull; SEBA</p>
                 <span class="badge-tag">Active Learner</span>
+                <div style="margin-top: 15px;">
+                    <button id="editProfileBtn" class="explore-btn" style="padding: 6px 14px; font-size: 11px;">
+                        <i class="fa-solid fa-pen"></i> Edit Profile
+                    </button>
+                </div>
             </div>
 
             <div class="profile-stats-grid">
@@ -179,7 +182,6 @@
 
     <script src="script.js"></script>
     <script>
-      // Register Service Worker for PWA installation
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed: ', err));
@@ -187,5 +189,5 @@
       }
     </script>
 </body>
-                                                     </html>
-                                                     
+    </html>
+    

@@ -8,14 +8,8 @@ async function loadContentData() {
         const response = await fetch('content.json');
         const data = await response.json();
 
-        // 1. Populate Student Profile Data
-        if(data.student_profile) {
-            document.getElementById("profileName").innerText = data.student_profile.name;
-            document.getElementById("profileMeta").innerText = `${data.student_profile.grade} • ${data.student_profile.board}`;
-            document.getElementById("statPoints").innerText = data.student_profile.total_points;
-            document.getElementById("statCourses").innerText = data.student_profile.courses_enrolled;
-            document.getElementById("statCerts").innerText = data.student_profile.certificates_earned;
-        }
+        // 1. Populate Student Profile Data with LocalStorage Support
+        loadStudentProfile(data);
 
         // 2. Populate Continue Learning Card
         if(data.continue_learning) {
@@ -77,8 +71,6 @@ async function loadContentData() {
             const navKey = item.getAttribute("data-nav");
             item.onclick = (e) => {
                 e.preventDefault();
-                
-                // Highlight active nav icon
                 document.querySelectorAll(".bottom-nav .nav-item").forEach(n => n.classList.remove("active"));
                 item.classList.add("active");
 
@@ -98,7 +90,7 @@ async function loadContentData() {
         document.getElementById("searchBtn").onclick = () => {
             const query = prompt("Search study materials or chapters:");
             if(query) {
-                alert(`Searching for: "${query}". You can link your search index or folders in content.json.`);
+                alert(`Searching for: "${query}".`);
             }
         };
 
@@ -116,13 +108,46 @@ async function loadContentData() {
     }
 }
 
+function loadStudentProfile(jsonData) {
+    const savedName = localStorage.getItem("akshara_student_name");
+    const savedGrade = localStorage.getItem("akshara_student_grade");
+
+    const profileName = savedName || (jsonData.student_profile ? jsonData.student_profile.name : "Student Name");
+    const profileGrade = savedGrade || (jsonData.student_profile ? jsonData.student_profile.grade : "Class 10");
+    const board = jsonData.student_profile ? jsonData.student_profile.board : "SEBA";
+
+    document.getElementById("profileName").innerText = profileName;
+    document.getElementById("profileMeta").innerText = `${profileGrade} • ${board}`;
+    
+    if(jsonData.student_profile) {
+        document.getElementById("statPoints").innerText = jsonData.student_profile.total_points;
+        document.getElementById("statCourses").innerText = jsonData.student_profile.courses_enrolled;
+        document.getElementById("statCerts").innerText = jsonData.student_profile.certificates_earned;
+    }
+
+    document.getElementById("editProfileBtn").onclick = () => {
+        const inputName = prompt("Enter your full name:", profileName);
+        if (inputName !== null && inputName.trim() !== "") {
+            const inputGrade = prompt("Enter your class/grade (e.g., Class 9 or Class 10):", profileGrade);
+            
+            localStorage.setItem("akshara_student_name", inputName.trim());
+            if (inputGrade) {
+                localStorage.setItem("akshara_student_grade", inputGrade.trim());
+            }
+
+            document.getElementById("profileName").innerText = inputName.trim();
+            document.getElementById("profileMeta").innerText = `${inputGrade || profileGrade} • ${board}`;
+            alert("Profile updated successfully on this device!");
+        }
+    };
+}
+
 function setupNavigation() {
     const profileToggleBtn = document.getElementById("profileToggleBtn");
     const brandHome = document.getElementById("brandHome");
     const homeContainer = document.getElementById("homeViewContainer");
     const profileView = document.getElementById("profileView");
 
-    // Toggle Profile View on clicking profile picture icon
     profileToggleBtn.onclick = () => {
         const isProfileVisible = profileView.style.display === "block";
         if(!isProfileVisible) {
@@ -134,14 +159,12 @@ function setupNavigation() {
         }
     };
 
-    // Return to Home view when clicking brand logo title
     brandHome.onclick = () => {
         showHomeView();
         document.querySelectorAll(".bottom-nav .nav-item").forEach(n => n.classList.remove("active"));
         document.querySelector('.bottom-nav .nav-item[data-nav="home"]').classList.add("active");
     };
 
-    // Settings actions in Profile view
     document.getElementById("clearCacheBtn").onclick = () => {
         if('caches' in window) {
             caches.keys().then(names => {
@@ -149,7 +172,8 @@ function setupNavigation() {
             });
         }
         localStorage.clear();
-        alert("App cache cleared successfully!");
+        alert("App cache cleared and local profile reset!");
+        location.reload();
     };
 
     document.getElementById("appVersionBtn").onclick = () => {
@@ -182,4 +206,4 @@ function getSubjectBg(color) {
         amber: "#fffbeb"
     };
     return map[color] || "#eff6ff";
-        }
+}

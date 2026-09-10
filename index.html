@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e293b">
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -33,7 +32,6 @@
 
         <!-- HOME VIEW SECTIONS -->
         <div id="homeViewContainer">
-            <!-- Hero Banner Section -->
             <section class="hero-banner">
                 <div class="hero-text">
                     <span class="hero-subtitle">YOUR LEARNING JOURNEY STARTS HERE</span>
@@ -184,10 +182,10 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed: ', err));
+          navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed: ', err));
         });
       }
     </script>
 </body>
     </html>
-    
+                

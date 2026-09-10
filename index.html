@@ -14,7 +14,7 @@
 
     <!-- Top Navigation Bar -->
     <header class="navbar">
-        <div class="brand">
+        <div class="brand" id="brandHome" style="cursor: pointer;">
             <img src="logo.png" alt="Akshara Logo" class="app-logo">
             <div class="brand-text">
                 <h1>Akshara</h1>
@@ -22,129 +22,132 @@
             </div>
         </div>
         <div class="nav-icons">
-            <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <button aria-label="Notifications"><i class="fa-regular fa-bell"></i><span class="badge"></span></button>
-            <button class="profile-btn" aria-label="Profile"><i class="fa-solid fa-user"></i></button>
+            <button aria-label="Search" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button aria-label="Notifications" id="notifBtn"><i class="fa-regular fa-bell"></i><span class="badge"></span></button>
+            <button class="profile-btn" id="profileToggleBtn" aria-label="Profile"><i class="fa-solid fa-user"></i></button>
         </div>
     </header>
 
-    <!-- Main Container Content -->
-    <main class="<!-- Student Profile Section (Initially Hidden) -->
-<section id="profileView" class="profile-view" style="display: none;">
-    <div class="profile-header-card">
-        <div class="profile-avatar-lg">
-            <i class="fa-solid fa-user"></i>
-        </div>
-        <h2 id="profileName">Student Name</h2>
-        <p id="profileMeta">Class 10 &bull; SEBA</p>
-        <span class="badge-tag">Active Learner</span>
-    </div>
+    <!-- Main Content Container -->
+    <main class="main-content">
 
-    <div class="profile-stats-grid">
-        <div class="stat-box">
-            <i class="fa-solid fa-bolt text-orange"></i>
-            <h4 id="statPoints">1250</h4>
-            <span>Total Points</span>
-        </div>
-        <div class="stat-box">
-            <i class="fa-solid fa-book-open text-blue"></i>
-            <h4 id="statCourses">5</h4>
-            <span>Enrolled</span>
-        </div>
-        <div class="stat-box">
-            <i class="fa-solid fa-award text-purple"></i>
-            <h4 id="statCerts">2</h4>
-            <span>Certificates</span>
-        </div>
-    </div>
-
-    <div class="section-block">
-        <h3>Account Settings</h3>
-        <div class="settings-list">
-            <div class="setting-item" onclick="alert('Offline storage cleared.')">
-                <i class="fa-solid fa-trash-can"></i>
-                <span>Clear App Cache</span>
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-            <div class="setting-item" onclick="alert('App is running the latest version v1.0.0')">
-                <i class="fa-solid fa-circle-info"></i>
-                <span>App Version (v1.0.0)</span>
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-        </div>
-    </div>
-</section>
-">
-
-        <!-- Hero Banner Section -->
-        <section class="hero-banner">
-            <div class="hero-text">
-                <span class="hero-subtitle">YOUR LEARNING JOURNEY STARTS HERE</span>
-                <h2>Better Learning <br><span class="highlight-text">Brighter Future</span></h2>
-                <p>Study at your pace, achieve your dreams with Akshara.</p>
-                <button class="explore-btn" id="exploreCoursesBtn">Explore Courses <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-            <div class="hero-graphic">
-                <i class="fa-solid fa-graduation-cap floating-cap"></i>
-                <div class="glow-sphere"></div>
-            </div>
-            <div class="carousel-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        </section>
-
-        <!-- Quick Options Grid -->
-        <section class="quick-grid">
-            <div class="quick-card" data-key="video_lessons">
-                <div class="icon-box blue-bg"><i class="fa-solid fa-play"></i></div>
-                <span>Video Lessons</span>
-            </div>
-            <div class="quick-card" data-key="study_materials">
-                <div class="icon-box pink-bg"><i class="fa-solid fa-book-bookmark"></i></div>
-                <span>Study Materials</span>
-            </div>
-            <div class="quick-card" data-key="practice_tests">
-                <div class="icon-box mint-bg"><i class="fa-solid fa-square-check"></i></div>
-                <span>Practice Tests</span>
-            </div>
-            <div class="quick-card" data-key="performance_analytics">
-                <div class="icon-box purple-bg"><i class="fa-solid fa-chart-column"></i></div>
-                <span>Performance Analytics</span>
-            </div>
-        </section>
-
-        <!-- Continue Learning Section -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3>Continue Learning</h3>
-                <a href="#" class="view-all">View All <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
-            <div class="continue-card" id="continueCard">
-                <div class="card-icon-lg">
-                    <i class="fa-solid fa-flask-vial"></i>
+        <!-- HOME VIEW SECTIONS (Wrapped together for view toggling) -->
+        <div id="homeViewContainer">
+            <!-- Hero Banner Section -->
+            <section class="hero-banner">
+                <div class="hero-text">
+                    <span class="hero-subtitle">YOUR LEARNING JOURNEY STARTS HERE</span>
+                    <h2>Better Learning <br><span class="highlight-text">Brighter Future</span></h2>
+                    <p>Study at your pace, achieve your dreams with Akshara.</p>
+                    <button class="explore-btn" id="exploreCoursesBtn">Explore Courses <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
-                <div class="card-details">
-                    <span class="sub-category" id="continueSub">SCIENCE</span>
-                    <h4 id="continueTitle">Chapter 1: Chemical Reactions and Equations</h4>
-                    <div class="progress-bar-container">
-                        <div class="progress-fill" id="progressFill" style="width: 37.5%;"></div>
+                <div class="hero-graphic">
+                    <i class="fa-solid fa-graduation-cap floating-cap"></i>
+                </div>
+                <div class="carousel-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </section>
+
+            <!-- Quick Options Grid -->
+            <section class="quick-grid">
+                <div class="quick-card" data-key="video_lessons">
+                    <div class="icon-box blue-bg"><i class="fa-solid fa-play"></i></div>
+                    <span>Video Lessons</span>
+                </div>
+                <div class="quick-card" data-key="study_materials">
+                    <div class="icon-box pink-bg"><i class="fa-solid fa-book-bookmark"></i></div>
+                    <span>Study Materials</span>
+                </div>
+                <div class="quick-card" data-key="practice_tests">
+                    <div class="icon-box mint-bg"><i class="fa-solid fa-square-check"></i></div>
+                    <span>Practice Tests</span>
+                </div>
+                <div class="quick-card" data-key="performance_analytics">
+                    <div class="icon-box purple-bg"><i class="fa-solid fa-chart-column"></i></div>
+                    <span>Performance Analytics</span>
+                </div>
+            </section>
+
+            <!-- Continue Learning Section -->
+            <section class="section-block">
+                <div class="section-header">
+                    <h3>Continue Learning</h3>
+                    <a href="#" class="view-all" id="continueViewAll">View All <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+                <div class="continue-card" id="continueCard">
+                    <div class="card-icon-lg">
+                        <i class="fa-solid fa-flask-vial"></i>
                     </div>
-                    <span class="progress-text" id="progressText">3 / 8 Lessons Completed</span>
+                    <div class="card-details">
+                        <span class="sub-category" id="continueSub">SCIENCE</span>
+                        <h4 id="continueTitle">Chapter 1: Chemical Reactions and Equations</h4>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill" id="progressFill" style="width: 37.5%;"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">3 / 8 Lessons Completed</span>
+                    </div>
+                    <button class="arrow-forward-btn" aria-label="Open Lesson"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
-                <button class="arrow-forward-btn" aria-label="Open Lesson"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-        </section>
+            </section>
 
-        <!-- Explore by Subject Section -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3>Explore by Subject</h3>
-                <p class="section-desc">Choose your subject and start learning</p>
+            <!-- Explore by Subject Section -->
+            <section class="section-block">
+                <div class="section-header">
+                    <h3>Explore by Subject</h3>
+                    <p class="section-desc">Choose your subject and start learning</p>
+                </div>
+                <div class="subjects-grid" id="subjectsGrid">
+                    <!-- Dynamically populated from content.json -->
+                </div>
+            </section>
+        </div>
+
+        <!-- STUDENT PROFILE VIEW (Initially Hidden) -->
+        <section id="profileView" class="profile-view" style="display: none;">
+            <div class="profile-header-card">
+                <div class="profile-avatar-lg">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h2 id="profileName">Student Name</h2>
+                <p id="profileMeta">Class 10 &bull; SEBA</p>
+                <span class="badge-tag">Active Learner</span>
             </div>
-            <div class="subjects-grid" id="subjectsGrid">
-                <!-- Dynamically populated from content.json -->
+
+            <div class="profile-stats-grid">
+                <div class="stat-box">
+                    <i class="fa-solid fa-bolt text-orange"></i>
+                    <h4 id="statPoints">1250</h4>
+                    <span>Total Points</span>
+                </div>
+                <div class="stat-box">
+                    <i class="fa-solid fa-book-open text-blue"></i>
+                    <h4 id="statCourses">5</h4>
+                    <span>Enrolled</span>
+                </div>
+                <div class="stat-box">
+                    <i class="fa-solid fa-award text-purple"></i>
+                    <h4 id="statCerts">2</h4>
+                    <span>Certificates</span>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <h3>Account Settings</h3>
+                <div class="settings-list">
+                    <div class="setting-item" id="clearCacheBtn">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Clear App Cache</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <div class="setting-item" id="appVersionBtn">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>App Version (v1.0.0)</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -152,23 +155,23 @@
 
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-item active">
+        <a href="#" class="nav-item active" data-nav="home">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
-        <a href="#courses" class="nav-item" id="navCourses">
+        <a href="#" class="nav-item" data-nav="courses">
             <i class="fa-solid fa-book"></i>
             <span>Courses</span>
         </a>
-        <a href="#library" class="nav-item" id="navLibrary">
+        <a href="#" class="nav-item" data-nav="library">
             <i class="fa-solid fa-folder-open"></i>
             <span>Library</span>
         </a>
-        <a href="#progress" class="nav-item" id="navProgress">
+        <a href="#" class="nav-item" data-nav="progress">
             <i class="fa-solid fa-chart-line"></i>
             <span>Progress</span>
         </a>
-        <a href="#more" class="nav-item" id="navMore">
+        <a href="#" class="nav-item" data-nav="more">
             <i class="fa-solid fa-ellipsis"></i>
             <span>More</span>
         </a>
@@ -184,4 +187,5 @@
       }
     </script>
 </body>
-</html>
+                                                     </html>
+                                                     

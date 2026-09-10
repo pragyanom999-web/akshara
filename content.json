@@ -1,0 +1,58 @@
+{
+  "continue_learning": {
+    "title": "Chapter 1: Chemical Reactions and Equations",
+    "subject": "SCIENCE",
+    "progress_percent": 37.5,
+    "completed_lessons": 3,
+    "total_lessons": 8,
+    "drive_link": "https://drive.google.com/file/d/YOUR_FILE_ID/view"
+  },
+  "subjects": [
+    {
+      "id": "math",
+      "name": "Mathematics",
+      "chapters": 12,
+      "icon": "fa-book",
+      "color": "blue",
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+    },
+    {
+      "id": "science",
+      "name": "Science",
+      "chapters": 14,
+      "icon": "fa-flask",
+      "color": "orange",
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+    },
+    {
+      "id": "english",
+      "name": "English",
+      "chapters": 10,
+      "icon": "fa-book-open",
+      "color": "green",
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+    },
+    {
+      "id": "social",
+      "name": "Social Science",
+      "chapters": 12,
+      "icon": "fa-globe",
+      "color": "purple",
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+    },
+    {
+      "id": "assamese",
+      "name": "Assamese",
+      "chapters": 8,
+      "icon": "fa-language",
+      "color": "amber",
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+    }
+  ],
+  "quick_options": {
+    "video_lessons": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
+    "study_materials": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
+    "practice_tests": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
+    "performance_analytics": "#analytics"
+  }
+}

@@ -8,22 +8,25 @@ async function loadContentData() {
         const response = await fetch('content.json');
         const data = await response.json();
 
-        // 1. Populate Student Profile Data with LocalStorage Support
+        // 1. Populate Student Profile Data with LocalStorage & Automatic Points
         loadStudentProfile(data);
 
-        // 2. Populate Continue Learning Card
+        // 2. Populate Continue Learning Card (Awards +10 points when clicked/studied)
         if(data.continue_learning) {
             document.getElementById("continueSub").innerText = data.continue_learning.subject;
             document.getElementById("continueTitle").innerText = data.continue_learning.title;
             document.getElementById("progressFill").style.width = data.continue_learning.progress_percent + "%";
             document.getElementById("progressText").innerText = `${data.continue_learning.completed_lessons} / ${data.continue_learning.total_lessons} Lessons Completed`;
 
-            document.getElementById("continueCard").onclick = () => {
+            const handleLessonClick = () => {
+                addPoints(10); // Automatically add 10 points for studying a lesson
                 window.open(data.continue_learning.drive_link, '_blank');
             };
+
+            document.getElementById("continueCard").onclick = handleLessonClick;
             document.getElementById("continueViewAll").onclick = (e) => {
                 e.preventDefault();
-                window.open(data.continue_learning.drive_link, '_blank');
+                handleLessonClick();
             };
         }
 
@@ -48,17 +51,21 @@ async function loadContentData() {
                     <i class="fa-solid fa-chevron-right"></i>
                 `;
                 card.onclick = () => {
+                    addPoints(15); // +15 points for exploring a subject chapter
                     window.open(sub.drive_link, '_blank');
                 };
                 subjectsGrid.appendChild(card);
             });
         }
 
-        // 4. Quick Option Clicks Mapping
+        // 4. Quick Option Clicks Mapping (Awards +50 points automatically when opening Practice Tests!)
         document.querySelectorAll(".quick-card").forEach(card => {
             const key = card.getAttribute("data-key");
             card.onclick = () => {
                 if(data.quick_options && data.quick_options[key]) {
+                    if(key === "practice_tests") {
+                        addPoints(50); // Automatically reward 50 points for attending practice exam
+                    }
                     window.open(data.quick_options[key], '_blank');
                 } else {
                     alert("Link not configured in content.json");
@@ -86,7 +93,6 @@ async function loadContentData() {
             };
         });
 
-        // Top Search & Notification Buttons
         document.getElementById("searchBtn").onclick = () => {
             const query = prompt("Search study materials or chapters:");
             if(query) {
@@ -98,7 +104,6 @@ async function loadContentData() {
             alert("No new notifications at this time.");
         };
 
-        // Explore Courses Banner Button
         document.getElementById("exploreCoursesBtn").onclick = () => {
             window.scrollTo({ top: 400, behavior: 'smooth' });
         };
@@ -108,19 +113,39 @@ async function loadContentData() {
     }
 }
 
+// Automatic Points Increaser Function
+function addPoints(amount) {
+    let currentPoints = parseInt(localStorage.getItem("akshara_student_points")) || 1250;
+    currentPoints += amount;
+    localStorage.setItem("akshara_student_points", currentPoints);
+    
+    // Update display instantly if profile stat element exists
+    const statPointsElem = document.getElementById("statPoints");
+    if(statPointsElem) {
+        statPointsElem.innerText = currentPoints;
+    }
+}
+
 function loadStudentProfile(jsonData) {
     const savedName = localStorage.getItem("akshara_student_name");
     const savedGrade = localStorage.getItem("akshara_student_grade");
+    const savedPoints = localStorage.getItem("akshara_student_points");
 
     const profileName = savedName || (jsonData.student_profile ? jsonData.student_profile.name : "Student Name");
     const profileGrade = savedGrade || (jsonData.student_profile ? jsonData.student_profile.grade : "Class 10");
     const board = jsonData.student_profile ? jsonData.student_profile.board : "SEBA";
+    const totalPoints = savedPoints || (jsonData.student_profile ? jsonData.student_profile.total_points : 1250);
+
+    // Save initial default points if not set yet
+    if(!savedPoints && jsonData.student_profile) {
+        localStorage.setItem("akshara_student_points", jsonData.student_profile.total_points);
+    }
 
     document.getElementById("profileName").innerText = profileName;
     document.getElementById("profileMeta").innerText = `${profileGrade} • ${board}`;
+    document.getElementById("statPoints").innerText = totalPoints;
     
     if(jsonData.student_profile) {
-        document.getElementById("statPoints").innerText = jsonData.student_profile.total_points;
         document.getElementById("statCourses").innerText = jsonData.student_profile.courses_enrolled;
         document.getElementById("statCerts").innerText = jsonData.student_profile.certificates_earned;
     }
@@ -206,4 +231,4 @@ function getSubjectBg(color) {
         amber: "#fffbeb"
     };
     return map[color] || "#eff6ff";
-}
+        }

@@ -1,11 +1,26 @@
 {
+  "student_profile": {
+    "name": "Student Name",
+    "grade": "Class 10",
+    "board": "SEBA",
+    "email": "student@example.com",
+    "total_points": 1250,
+    "courses_enrolled": 5,
+    "certificates_earned": 2
+  },
   "continue_learning": {
     "title": "Chapter 1: Chemical Reactions and Equations",
     "subject": "SCIENCE",
     "progress_percent": 37.5,
     "completed_lessons": 3,
     "total_lessons": 8,
-    "drive_link": "https://drive.google.com/file/d/YOUR_FILE_ID/view"
+    "drive_link": "https://drive.google.com/file/d/YOUR_PDF_OR_LESSON_FILE_ID/view"
+  },
+  "quick_options": {
+    "video_lessons": "https://drive.google.com/drive/folders/YOUR_VIDEO_FOLDER_ID",
+    "study_materials": "https://drive.google.com/drive/folders/YOUR_STUDY_MATERIALS_PDF_FOLDER_ID",
+    "practice_tests": "https://drive.google.com/drive/folders/YOUR_PRACTICE_TESTS_FOLDER_ID",
+    "performance_analytics": "https://drive.google.com/file/d/YOUR_ANALYTICS_FILE_ID/view"
   },
   "subjects": [
     {
@@ -14,7 +29,7 @@
       "chapters": 12,
       "icon": "fa-book",
       "color": "blue",
-      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_MATH_FOLDER_ID"
     },
     {
       "id": "science",
@@ -22,7 +37,7 @@
       "chapters": 14,
       "icon": "fa-flask",
       "color": "orange",
-      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_SCIENCE_FOLDER_ID"
     },
     {
       "id": "english",
@@ -30,7 +45,7 @@
       "chapters": 10,
       "icon": "fa-book-open",
       "color": "green",
-      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_ENGLISH_FOLDER_ID"
     },
     {
       "id": "social",
@@ -38,7 +53,7 @@
       "chapters": 12,
       "icon": "fa-globe",
       "color": "purple",
-      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_SOCIAL_FOLDER_ID"
     },
     {
       "id": "assamese",
@@ -46,26 +61,13 @@
       "chapters": 8,
       "icon": "fa-language",
       "color": "amber",
-      "drive_link": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
+      "drive_link": "https://drive.google.com/drive/folders/YOUR_ASSAMESE_FOLDER_ID"
     }
   ],
-  "quick_options": {
-    "video_lessons": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
-    "study_materials": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
-    "practice_tests": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
-    "performance_analytics": "#analytics"
+  "navigation_links": {
+    "courses": "https://drive.google.com/drive/folders/YOUR_ALL_COURSES_FOLDER_ID",
+    "library": "https://drive.google.com/drive/folders/YOUR_LIBRARY_PDF_FOLDER_ID",
+    "progress": "https://drive.google.com/file/d/YOUR_PROGRESS_DOCUMENT_ID/view",
+    "more": "https://drive.google.com/drive/folders/YOUR_MORE_RESOURCES_FOLDER_ID"
   }
 }
-{
-  "student_profile": {
-    "name": "Student Name",
-    "grade": "Class 10",
-    "board": "SEBA",
-    "email": "student@example.com",
-    "avatar": "fa-user",
-    "total_points": 1250,
-    "courses_enrolled": 5,
-    "certificates_earned": 2
-  }
-}
-

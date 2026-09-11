@@ -4,16 +4,16 @@
     "grade": "Class 10",
     "board": "SEBA",
     "email": "student@example.com",
-    "total_points": 1250,
-    "courses_enrolled": 5,
-    "certificates_earned": 2
+    "total_points": 000,
+    "courses_enrolled": 0,
+    "certificates_earned": 0
   },
   "continue_learning": {
     "title": "Chapter 1: Chemical Reactions and Equations",
     "subject": "SCIENCE",
     "progress_percent": 37.5,
-    "completed_lessons": 3,
-    "total_lessons": 8,
+    "completed_lessons": 0,
+    "total_lessons": 0,
     "drive_link": "https://drive.google.com/file/d/YOUR_PDF_OR_LESSON_FILE_ID/view"
   },
   "quick_options": {
@@ -26,15 +26,15 @@
     {
       "id": "math",
       "name": "Mathematics",
-      "chapters": 12,
+      "chapters": 0,
       "icon": "fa-book",
       "color": "blue",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_MATH_FOLDER_ID"
     },
     {
       "id": "science",
-      "name": "Science - NCERT TEXTBOOK SOLUTIONS & EXERCISES",
-      "chapters": 14,
+      "name": "NCERT Textbook Solutions & Exercises",
+      "chapters": 5,
       "icon": "fa-flask",
       "color": "orange",
       "drive_link": "https://drive.google.com/drive/folders/1mOLYibOM7H9Z6xRSxxSkuXMO1iv8pnp0"
@@ -42,7 +42,7 @@
     {
       "id": "english",
       "name": "English",
-      "chapters": 10,
+      "chapters": 0,
       "icon": "fa-book-open",
       "color": "green",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_ENGLISH_FOLDER_ID"
@@ -50,7 +50,7 @@
     {
       "id": "social",
       "name": "Social Science",
-      "chapters": 12,
+      "chapters": 0,
       "icon": "fa-globe",
       "color": "purple",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_SOCIAL_FOLDER_ID"
@@ -58,7 +58,7 @@
     {
       "id": "assamese",
       "name": "Assamese",
-      "chapters": 8,
+      "chapters": 0,
       "icon": "fa-language",
       "color": "amber",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_ASSAMESE_FOLDER_ID"

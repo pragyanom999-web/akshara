@@ -33,7 +33,7 @@
     },
     {
       "id": "science",
-      "name": "NCERT Textbook Solutions & Exercises",
+      "name": "Science",
       "chapters": 5,
       "icon": "fa-flask",
       "color": "orange",
@@ -64,6 +64,9 @@
       "drive_link": "https://drive.google.com/drive/folders/YOUR_ASSAMESE_FOLDER_ID"
     }
   ],
+  "study_materials_subsections": {
+    "ncert_solutions": "https://drive.google.com/drive/folders/1mOLYibOM7H9Z6xRSxxSkuXMO1iv8pnp0"
+  },
   "navigation_links": {
     "courses": "https://drive.google.com/drive/folders/YOUR_ALL_COURSES_FOLDER_ID",
     "library": "https://drive.google.com/drive/folders/1mOLYibOM7H9Z6xRSxxSkuXMO1iv8pnp0",

@@ -26,7 +26,7 @@
     {
       "id": "math",
       "name": "Mathematics",
-      "chapters": 0,
+      "chapters": 12,
       "icon": "fa-book",
       "color": "blue",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_MATH_FOLDER_ID"
@@ -37,12 +37,13 @@
       "chapters": 5,
       "icon": "fa-flask",
       "color": "orange",
-      "drive_link": "https://drive.google.com/drive/folders/1mOLYibOM7H9Z6xRSxxSkuXMO1iv8pnp0"
+      "drive_link": "https://drive.google.com/drive/folders/1mOLYibOM7H9Z6xRSxxSkuXMO1iv8pnp0",
+      "subtitle": "NCERT Textbook Solutions & Exercises"
     },
     {
       "id": "english",
       "name": "English",
-      "chapters": 0,
+      "chapters": 10,
       "icon": "fa-book-open",
       "color": "green",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_ENGLISH_FOLDER_ID"
@@ -50,7 +51,7 @@
     {
       "id": "social",
       "name": "Social Science",
-      "chapters": 0,
+      "chapters": 12,
       "icon": "fa-globe",
       "color": "purple",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_SOCIAL_FOLDER_ID"
@@ -58,15 +59,12 @@
     {
       "id": "assamese",
       "name": "Assamese",
-      "chapters": 0,
+      "chapters": 8,
       "icon": "fa-language",
       "color": "amber",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_ASSAMESE_FOLDER_ID"
     }
   ],
-  "study_materials_subsections": {
-    "ncert_solutions": "https://drive.google.com/drive/folders/1mOLYibOM7H9Z6xRSxxSkuXMO1iv8pnp0"
-  },
   "navigation_links": {
     "courses": "https://drive.google.com/drive/folders/YOUR_ALL_COURSES_FOLDER_ID",
     "library": "https://drive.google.com/drive/folders/1mOLYibOM7H9Z6xRSxxSkuXMO1iv8pnp0",

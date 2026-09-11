@@ -8,10 +8,8 @@ async function loadContentData() {
         const response = await fetch('content.json');
         const data = await response.json();
 
-        // 1. Populate Student Profile Data with LocalStorage & Automatic Points
         loadStudentProfile(data);
 
-        // 2. Populate Continue Learning Card (Awards +10 points when clicked/studied)
         if(data.continue_learning) {
             document.getElementById("continueSub").innerText = data.continue_learning.subject;
             document.getElementById("continueTitle").innerText = data.continue_learning.title;
@@ -19,7 +17,7 @@ async function loadContentData() {
             document.getElementById("progressText").innerText = `${data.continue_learning.completed_lessons} / ${data.continue_learning.total_lessons} Lessons Completed`;
 
             const handleLessonClick = () => {
-                addPoints(10); // Automatically add 10 points for studying a lesson
+                addPoints(10);
                 window.open(data.continue_learning.drive_link, '_blank');
             };
 
@@ -30,7 +28,7 @@ async function loadContentData() {
             };
         }
 
-        // 3. Populate Subjects Grid
+        // Populate Subjects Grid with Subtitle Support
         const subjectsGrid = document.getElementById("subjectsGrid");
         subjectsGrid.innerHTML = "";
 
@@ -38,6 +36,10 @@ async function loadContentData() {
             data.subjects.forEach(sub => {
                 const card = document.createElement("div");
                 card.className = "subject-card";
+                
+                // If subtitle exists (like NCERT solutions for Science), display it nicely below the chapters count
+                const displaySubtitle = sub.subtitle ? `<span style="color:#ea580c; font-weight:600; font-size:10px; display:block; margin-top:2px;">${sub.subtitle}</span>` : `<span>${sub.chapters} Chapters</span>`;
+
                 card.innerHTML = `
                     <div class="subject-left">
                         <div class="subject-icon" style="background: ${getSubjectBg(sub.color)}; color: ${getSubjectColor(sub.color)}">
@@ -45,26 +47,25 @@ async function loadContentData() {
                         </div>
                         <div class="subject-info">
                             <h5>${sub.name}</h5>
-                            <span>${sub.chapters} Chapters</span>
+                            ${displaySubtitle}
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-right"></i>
                 `;
                 card.onclick = () => {
-                    addPoints(15); // +15 points for exploring a subject chapter
+                    addPoints(15);
                     window.open(sub.drive_link, '_blank');
                 };
                 subjectsGrid.appendChild(card);
             });
         }
 
-        // 4. Quick Option Clicks Mapping (Awards +50 points automatically when opening Practice Tests!)
         document.querySelectorAll(".quick-card").forEach(card => {
             const key = card.getAttribute("data-key");
             card.onclick = () => {
                 if(data.quick_options && data.quick_options[key]) {
                     if(key === "practice_tests") {
-                        addPoints(50); // Automatically reward 50 points for attending practice exam
+                        addPoints(50);
                     }
                     window.open(data.quick_options[key], '_blank');
                 } else {
@@ -73,7 +74,6 @@ async function loadContentData() {
             };
         });
 
-        // 5. Bottom Navigation links handling
         document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {
             const navKey = item.getAttribute("data-nav");
             item.onclick = (e) => {
@@ -113,13 +113,11 @@ async function loadContentData() {
     }
 }
 
-// Automatic Points Increaser Function
 function addPoints(amount) {
     let currentPoints = parseInt(localStorage.getItem("akshara_student_points")) || 1250;
     currentPoints += amount;
     localStorage.setItem("akshara_student_points", currentPoints);
     
-    // Update display instantly if profile stat element exists
     const statPointsElem = document.getElementById("statPoints");
     if(statPointsElem) {
         statPointsElem.innerText = currentPoints;
@@ -136,7 +134,6 @@ function loadStudentProfile(jsonData) {
     const board = jsonData.student_profile ? jsonData.student_profile.board : "SEBA";
     const totalPoints = savedPoints || (jsonData.student_profile ? jsonData.student_profile.total_points : 1250);
 
-    // Save initial default points if not set yet
     if(!savedPoints && jsonData.student_profile) {
         localStorage.setItem("akshara_student_points", jsonData.student_profile.total_points);
     }
@@ -231,4 +228,5 @@ function getSubjectBg(color) {
         amber: "#fffbeb"
     };
     return map[color] || "#eff6ff";
-        }
+                    }
+                

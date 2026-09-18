@@ -1,6 +1,6 @@
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open('akshara-cache-v6').then((cache) => {
+    caches.open('akshara-cache-v7').then((cache) => {
       return cache.addAll([
         './',
         './index.html',
@@ -17,7 +17,7 @@ self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(keyList.map((key) => {
-        if (key !== 'akshara-cache-v6') {
+        if (key !== 'akshara-cache-v7') {
           return caches.delete(key);
         }
       }));

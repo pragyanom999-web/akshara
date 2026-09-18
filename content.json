@@ -11,9 +11,9 @@
   "continue_learning": {
     "title": "Chapter 1: Chemical Reactions and Equations",
     "subject": "SCIENCE",
-    "progress_percent": 37.5,
+    "progress_percent": 0,
     "completed_lessons": 0,
-    "total_lessons": 0,
+    "total_lessons": 8,
     "drive_link": "https://drive.google.com/file/d/YOUR_PDF_OR_LESSON_FILE_ID/view"
   },
   "quick_options": {
@@ -54,7 +54,7 @@
       "chapters": 12,
       "icon": "fa-globe",
       "color": "purple",
-      "drive_link": "https://drive.google.com/drive/folders/YOUR_SOCIAL_FOLDER_ID"
+      "drive_link": "https://drive.google.com/drive/folders/1VAzH2b7NR33_sQhjqUyPpcg7KrAIvRa0"
     },
     {
       "id": "assamese",
@@ -63,6 +63,18 @@
       "icon": "fa-language",
       "color": "amber",
       "drive_link": "https://drive.google.com/drive/folders/YOUR_ASSAMESE_FOLDER_ID"
+    }
+  ],
+  "app_updates": [
+    {
+      "version": "v1.1.0",
+      "date": "2026-09-18",
+      "message": "Added Social Science Google Drive resources and local profile picture support!"
+    },
+    {
+      "version": "v1.0.5",
+      "date": "2026-09-10",
+      "message": "Automatic point tracking for Opal practice tests and NCERT solutions integration."
     }
   ],
   "navigation_links": {

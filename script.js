@@ -9,6 +9,7 @@ async function loadContentData() {
         const data = await response.json();
 
         loadStudentProfile(data);
+        checkUpdatesBadge(data);
 
         if(data.continue_learning) {
             document.getElementById("continueSub").innerText = data.continue_learning.subject;
@@ -17,7 +18,7 @@ async function loadContentData() {
             document.getElementById("progressText").innerText = `${data.continue_learning.completed_lessons} / ${data.continue_learning.total_lessons} Lessons Completed`;
 
             const handleLessonClick = () => {
-                addPoints(10);
+                addPointsAndMilestones(10, 1, 0); // +10 pts, +1 course unlock milestone
                 window.open(data.continue_learning.drive_link, '_blank');
             };
 
@@ -28,7 +29,6 @@ async function loadContentData() {
             };
         }
 
-        // Populate Subjects Grid with Subtitle Support
         const subjectsGrid = document.getElementById("subjectsGrid");
         subjectsGrid.innerHTML = "";
 
@@ -36,8 +36,6 @@ async function loadContentData() {
             data.subjects.forEach(sub => {
                 const card = document.createElement("div");
                 card.className = "subject-card";
-                
-                // If subtitle exists (like NCERT solutions for Science), display it nicely below the chapters count
                 const displaySubtitle = sub.subtitle ? `<span style="color:#ea580c; font-weight:600; font-size:10px; display:block; margin-top:2px;">${sub.subtitle}</span>` : `<span>${sub.chapters} Chapters</span>`;
 
                 card.innerHTML = `
@@ -53,7 +51,7 @@ async function loadContentData() {
                     <i class="fa-solid fa-chevron-right"></i>
                 `;
                 card.onclick = () => {
-                    addPoints(15);
+                    addPointsAndMilestones(15, 1, 0); // +15 pts for exploring subject
                     window.open(sub.drive_link, '_blank');
                 };
                 subjectsGrid.appendChild(card);
@@ -65,7 +63,10 @@ async function loadContentData() {
             card.onclick = () => {
                 if(data.quick_options && data.quick_options[key]) {
                     if(key === "practice_tests") {
-                        addPoints(50);
+                        // Automatically award points and milestones for attending Opal online test
+                        let testScorePoints = 75; // Automated base performance points for attending test
+                        addPointsAndMilestones(testScorePoints, 0, 1); // +75 pts, +1 certificate milestone unlock
+                        alert("Practice test attended! Points and certificate unlocked automatically.");
                     }
                     window.open(data.quick_options[key], '_blank');
                 } else {
@@ -93,15 +94,18 @@ async function loadContentData() {
             };
         });
 
+        // Notifications Button
+        document.getElementById("notifBtn").onclick = () => {
+            showUpdatesModal(data.app_updates);
+            localStorage.setItem("akshara_last_read_update", data.app_updates[0].version);
+            document.getElementById("notifBadge").style.display = "none";
+        };
+
         document.getElementById("searchBtn").onclick = () => {
             const query = prompt("Search study materials or chapters:");
             if(query) {
                 alert(`Searching for: "${query}".`);
             }
-        };
-
-        document.getElementById("notifBtn").onclick = () => {
-            alert("No new notifications at this time.");
         };
 
         document.getElementById("exploreCoursesBtn").onclick = () => {
@@ -113,39 +117,91 @@ async function loadContentData() {
     }
 }
 
-function addPoints(amount) {
-    let currentPoints = parseInt(localStorage.getItem("akshara_student_points")) || 1250;
-    currentPoints += amount;
+// Automated Points & Milestone Counter
+function addPointsAndMilestones(pointsToAdd, courseIncrement, certIncrement) {
+    let currentPoints = parseInt(localStorage.getItem("akshara_student_points")) || 0;
+    let currentCourses = parseInt(localStorage.getItem("akshara_student_courses")) || 0;
+    let currentCerts = parseInt(localStorage.getItem("akshara_student_certs")) || 0;
+
+    currentPoints += pointsToAdd;
+    currentCourses += courseIncrement;
+    currentCerts += certIncrement;
+
     localStorage.setItem("akshara_student_points", currentPoints);
-    
-    const statPointsElem = document.getElementById("statPoints");
-    if(statPointsElem) {
-        statPointsElem.innerText = currentPoints;
-    }
+    localStorage.setItem("akshara_student_courses", currentCourses);
+    localStorage.setItem("akshara_student_certs", currentCerts);
+
+    // Refresh stats UI instantly
+    if(document.getElementById("statPoints")) document.getElementById("statPoints").innerText = currentPoints;
+    if(document.getElementById("statCourses")) document.getElementById("statCourses").innerText = currentCourses;
+    if(document.getElementById("statCerts")) document.getElementById("statCerts").innerText = currentCerts;
 }
 
 function loadStudentProfile(jsonData) {
     const savedName = localStorage.getItem("akshara_student_name");
     const savedGrade = localStorage.getItem("akshara_student_grade");
     const savedPoints = localStorage.getItem("akshara_student_points");
+    const savedCourses = localStorage.getItem("akshara_student_courses");
+    const savedCerts = localStorage.getItem("akshara_student_certs");
+    const savedPhoto = localStorage.getItem("akshara_student_photo");
 
     const profileName = savedName || (jsonData.student_profile ? jsonData.student_profile.name : "Student Name");
     const profileGrade = savedGrade || (jsonData.student_profile ? jsonData.student_profile.grade : "Class 10");
     const board = jsonData.student_profile ? jsonData.student_profile.board : "SEBA";
-    const totalPoints = savedPoints || (jsonData.student_profile ? jsonData.student_profile.total_points : 1250);
-
-    if(!savedPoints && jsonData.student_profile) {
-        localStorage.setItem("akshara_student_points", jsonData.student_profile.total_points);
-    }
+    
+    // Default stats to 0 at start as requested
+    const totalPoints = savedPoints !== null ? savedPoints : 0;
+    const enrolledCourses = savedCourses !== null ? savedCourses : 0;
+    const certsEarned = savedCerts !== null ? savedCerts : 0;
 
     document.getElementById("profileName").innerText = profileName;
     document.getElementById("profileMeta").innerText = `${profileGrade} • ${board}`;
     document.getElementById("statPoints").innerText = totalPoints;
-    
-    if(jsonData.student_profile) {
-        document.getElementById("statCourses").innerText = jsonData.student_profile.courses_enrolled;
-        document.getElementById("statCerts").innerText = jsonData.student_profile.certificates_earned;
+    document.getElementById("statCourses").innerText = enrolledCourses;
+    document.getElementById("statCerts").innerText = certsEarned;
+
+    // Handle local photograph display
+    const imgPreview = document.getElementById("profileImagePreview");
+    const defaultIcon = document.getElementById("defaultUserIcon");
+    const removeBtn = document.getElementById("removePhotoBtn");
+
+    if (savedPhoto) {
+        imgPreview.src = savedPhoto;
+        imgPreview.style.display = "block";
+        defaultIcon.style.display = "none";
+        removeBtn.style.display = "inline-flex";
+    } else {
+        imgPreview.style.display = "none";
+        defaultIcon.style.display = "block";
+        removeBtn.style.display = "none";
     }
+
+    // Photo Upload Listener
+    const photoInput = document.getElementById("uploadPhotoInput");
+    photoInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (uploadEvent) => {
+                const base64Image = uploadEvent.target.result;
+                localStorage.setItem("akshara_student_photo", base64Image);
+                imgPreview.src = base64Image;
+                imgPreview.style.display = "block";
+                defaultIcon.style.display = "none";
+                removeBtn.style.display = "inline-flex";
+                alert("Profile photograph updated successfully from local storage!");
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    // Remove Photo Listener
+    removeBtn.onclick = () => {
+        localStorage.removeItem("akshara_student_photo");
+        imgPreview.style.display = "none";
+        defaultIcon.style.display = "block";
+        removeBtn.style.display = "none";
+    };
 
     document.getElementById("editProfileBtn").onclick = () => {
         const inputName = prompt("Enter your full name:", profileName);
@@ -159,9 +215,30 @@ function loadStudentProfile(jsonData) {
 
             document.getElementById("profileName").innerText = inputName.trim();
             document.getElementById("profileMeta").innerText = `${inputGrade || profileGrade} • ${board}`;
-            alert("Profile updated successfully on this device!");
+            alert("Profile updated successfully!");
         }
     };
+}
+
+function checkUpdatesBadge(jsonData) {
+    if(jsonData.app_updates && jsonData.app_updates.length > 0) {
+        const lastRead = localStorage.getItem("akshara_last_read_update");
+        if(lastRead !== jsonData.app_updates[0].version) {
+            document.getElementById("notifBadge").style.display = "block";
+        }
+    }
+}
+
+function showUpdatesModal(updates) {
+    if(!updates || updates.length === 0) {
+        alert("No recent updates.");
+        return;
+    }
+    let updateText = "🔔 LATEST APP UPDATES:\n\n";
+    updates.forEach(u => {
+        updateText += `• [${u.version}] (${u.date})\n${u.message}\n\n`;
+    });
+    alert(updateText);
 }
 
 function setupNavigation() {
@@ -188,18 +265,20 @@ function setupNavigation() {
     };
 
     document.getElementById("clearCacheBtn").onclick = () => {
-        if('caches' in window) {
-            caches.keys().then(names => {
-                names.forEach(name => caches.delete(name));
-            });
+        if(confirm("Are you sure you want to clear cache and reset local profile settings?")) {
+            if('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => caches.delete(name));
+                });
+            }
+            localStorage.clear();
+            alert("Cache cleared successfully!");
+            location.reload();
         }
-        localStorage.clear();
-        alert("App cache cleared and local profile reset!");
-        location.reload();
     };
 
     document.getElementById("appVersionBtn").onclick = () => {
-        alert("Akshara PWA is running on version v1.0.0 (SEBA Class 9 & 10 curriculum support active).");
+        alert("Akshara PWA is running on version v1.1.0 (SEBA Class 9 & 10 curriculum support active).");
     };
 }
 
@@ -229,4 +308,3 @@ function getSubjectBg(color) {
     };
     return map[color] || "#eff6ff";
                     }
-                
